@@ -1,1 +1,1 @@
-export { default } from './vue-Lm-Iframe.vue'
+export { default } from './components/vue-lm-iframe.vue'
