@@ -1,5 +1,5 @@
 <template>
-  <div class="proIframe">
+  <div class="proIframe" v-draggable="draggableValue">
     <div class="proIframeHeader">
       <img src="image/count_16x16.svg" class="icon_count_16x16" alt />
       <span>保费测算</span>
@@ -9,7 +9,11 @@
   </div>
 </template>
 <script>
+import { Draggable } from "draggable-vue-directive";
 export default {
+  directives: {
+    Draggable
+  },
   props: {
     iframeUrl: {
       type: String,
@@ -134,6 +138,17 @@ export default {
   },
   mounted() {
     this.getPostMessage();
+    // 拖动 初始化参数
+
+    this.draggableValue.boundingElement = document.getElementsByTagName(
+      "body"
+    )[0];
+    this.draggableValue.boundingRectMargin = {
+      top: 2,
+      bottom: 2,
+      left: 2,
+      right: 2
+    };
   }
 };
 </script>
@@ -161,6 +176,7 @@ export default {
       width: 14px;
       height: 16px;
     }
+
     span {
       margin-left: 8px;
       font-family: Microsoft YaHei;
@@ -170,6 +186,7 @@ export default {
       letter-spacing: 0;
       color: #333333;
     }
+
     .el-icon-close {
       margin-left: 240px;
     }

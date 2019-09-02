@@ -4,10 +4,17 @@
 ### 力码算费带出 iframe 
 
 
+#####  版本说明： 1.0.5 更改 .md 
+
+
+#####  组件特点 ：iframe弹窗，支持拖拽操作  
+
+
+#####  DEMO演示地址 ： https://dev.zhongbaolianmeng.com/xbgh/#/
+
 ### 安装与基本用法
 ```
 $ npm install  --save  vue-lm-iframe
-
 ```
 全局注册方式
 ```
