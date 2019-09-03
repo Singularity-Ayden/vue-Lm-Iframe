@@ -3,8 +3,7 @@
 ---
 ### 力码算费带出 iframe 
 
-
-#####  版本说明： 1.0.5 更改 .md 
+#####  版本说明： 1.0.5 依小帮文档，更改算费返回参数  
 
 
 #####  组件特点 ：iframe弹窗，支持拖拽操作  
@@ -27,7 +26,6 @@ Vue.component('vue-lm-iframe', VueLmIframe)
 <template>
   <div id="app">
     <Vue-Lm-Iframe
-      v-draggable="draggableValue"
       v-if="iframeVisible"
       @closeIframeData="iframeVisible = false"
       :iframeUrl="newUrl"

@@ -21,103 +21,47 @@ export default {
     }
   },
   data() {
-    return {};
+    return {
+      draggableValue: {}
+    };
   },
   methods: {
     getFormData(data) {
-      if (data && data.source === "qixin") {
-        this.$emit("listenChildEvent", this.formatQixinDataHandle(data.res));
-        return;
-      }
       if (data && data.source === "lima") {
         this.$emit("listenChildEvent", this.formatLiMaDataHandle(data.res));
         return;
       }
-      if (data && data.source === "qx1") {
-        this.$emit("listenChildEvent", this.formatQiXinDataHandle1(data.res));
+      // 小帮齐欣项目
+      if (data && data.source === "xbqx") {
+        let sourceData = JSON.parse(data.res.qxData);
+        let soruceObj = {
+          fee: data.res.price,
+          baseFactors: [],
+          additionalFactors: []
+        };
+        sourceData.map(v => {
+          console.log(v);
+          let obj = {
+            factorName: v.name,
+            factorCode: v.key,
+            factorValueName: v.value,
+            factorValueCode: v.value
+          };
+          if (
+            v.key == "malignantTumorSecondaryCompensation" ||
+            v.key == "additionalInsureAgeLimit"
+          ) {
+            soruceObj.additionalFactors.push(obj);
+          } else {
+            soruceObj.baseFactors.push(obj);
+          }
+        });
+        this.$emit("listenChildEvent", soruceObj);
         return;
       }
       return;
     },
-    // 齐欣数据格式化
-    formatQixinDataHandle(data) {
-      if (data.indexOf("#|#") === -1) {
-        alert("该产品暂不支持算费自动带入,请算费后手动输入");
-        return;
-      }
-      let basicArr = data.split("#|#");
-      let paramsArr = JSON.parse(basicArr[0])["genes"];
-      let price = parseFloat(basicArr[1]) / 100;
-      let formData = {};
-      formData.yearlyAmount = price.toFixed("2"); //保费
-      let insuredAmountFlag = true;
-      paramsArr.forEach(item => {
-        if (item.key === "" && item.protectItemId && insuredAmountFlag)
-          (formData.insuredAmount = item.value), (insuredAmountFlag = false);
-        // 保额
-        if (item.key === "insureAgeLimit") formData.paymentPeriod = item.value;
-        // 缴费年限
-        if (item.key === "insurantDateLimit")
-          formData.guaranteePeriod = item.value;
-        //保障期间
-      });
-      return formData;
-    },
-    // 齐欣1
-    formatQiXinDataHandle1(data) {
-      let res = JSON.stringify(data);
-      res = JSON.parse(res);
-      return res;
-    },
 
-    // 力码数据格式化
-    formatLiMaDataHandle(data) {
-      let res = JSON.stringify(data);
-      res = JSON.parse(res);
-      let guaranteePeriod = res.guaranteePeriod;
-      let insuredAmount = res.insuredAmount;
-      let paymentPeriod = res.paymentPeriod;
-      let insuredGender = res.insuredGender;
-      if (guaranteePeriod.substr(0, 1) === "O") {
-        res.guaranteePeriod = "保终身";
-      } else if (guaranteePeriod.substr(0, 1) === "Y") {
-        res.guaranteePeriod = "保" + guaranteePeriod.replace("Y", "") + "年";
-      } else if (guaranteePeriod.substr(0, 1) === "A") {
-        res.guaranteePeriod =
-          "保至" + guaranteePeriod.replace("A", "") + "周岁";
-      } else if (guaranteePeriod.substr(0, 1) === "D") {
-        res.guaranteePeriod = "保" + guaranteePeriod.replace("D", "") + "天";
-      } else if (guaranteePeriod.substr(0, 1) === "M") {
-        res.guaranteePeriod = "保" + guaranteePeriod.replace("M", "") + "个月";
-      } else {
-        res.guaranteePeriod = "";
-      }
-
-      if (paymentPeriod.substr(0, 1) === "Y") {
-        res.paymentPeriod = paymentPeriod.replace("Y", "") + "年交";
-      } else if (paymentPeriod.substr(0, 1) === "A") {
-        res.paymentPeriod = "交至" + paymentPeriod.replace("A", "") + "周岁";
-      } else {
-        res.paymentPeriod = "一次性缴纳";
-      }
-
-      if (insuredAmount > 10000) {
-        res.insuredAmount = insuredAmount / 10000 + "万元";
-      } else {
-        if ((insuredAmount + "").indexOf("元") > -1) {
-          res.insuredAmount = insuredAmount;
-        } else {
-          res.insuredAmount = insuredAmount + "元";
-        }
-      }
-
-      if (insuredGender == 1) {
-        res.insuredGender = "男";
-      } else {
-        res.insuredGender = "女";
-      }
-      return res;
-    },
     getPostMessage() {
       let that = this;
       window.addEventListener(
@@ -130,7 +74,10 @@ export default {
           }
 
           let str = e.data;
+          console.log(str);
           this.getFormData(str);
+          that.$emit("closeIframeData");
+          return;
         },
         false
       );
@@ -139,7 +86,6 @@ export default {
   mounted() {
     this.getPostMessage();
     // 拖动 初始化参数
-
     this.draggableValue.boundingElement = document.getElementsByTagName(
       "body"
     )[0];

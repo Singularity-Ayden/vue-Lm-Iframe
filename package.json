@@ -1,7 +1,7 @@
 {
   "name": "vue-lm-iframe",
   "description": "力码算费iframe",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "zhangyu",
   "license": "MIT",
   "main": "dist/index.js",
