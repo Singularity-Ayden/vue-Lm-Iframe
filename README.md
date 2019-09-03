@@ -65,7 +65,7 @@ export default {
 
 - 返回参数说明
 
-![参数说明](https://shop.zhongbaounion.com/pic/hza/cssm.jpg)
+详见 DEMO 演示 https://dev.zhongbaolianmeng.com/xbgh/#/
 
 
 
