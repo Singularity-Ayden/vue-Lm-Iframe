@@ -1,15 +1,9 @@
 
 # vue-lm-iframe
 ---
-### 力码算费带出 iframe 
-
-#####  版本说明： 1.0.5 依小帮文档，更改算费返回参数  
-
+### 拖拽iframe 
 
 #####  组件特点 ：iframe弹窗，支持拖拽操作  
-
-
-#####  DEMO演示地址 ： https://dev.zhongbaolianmeng.com/xbgh/#/
 
 ### 安装与基本用法
 ```
@@ -62,13 +56,5 @@ export default {
 ### 方法说明： 
 
  `@listenChildEvent  ` :   组件回传的参数
-
-- 返回参数说明
-
-详见 DEMO 演示 https://dev.zhongbaolianmeng.com/xbgh/#/
-
-
-
-
 
 
